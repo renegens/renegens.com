@@ -11,4 +11,9 @@ Recently we got [custom fonts](https://developer.android.com/guide/topics/ui/loo
 
 We would use it like this:
 
-\[sourcecode language="xml"\] <style name="TextViewStyle" parent="android:Widget.TextView"> <item name="android:fontFamily">@font/montserrat\_regular</item> </style> \[/sourcecode\]
+```xml
+<style name="TextViewStyle" parent="android:Widget.TextView"> 
+    <item name="android:fontFamily">@font/montserrat\_regular</item> 
+</style>
+```
+[Check some other Android posts on the blog, I hope they will help.](http://www.renegens.com)

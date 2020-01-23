@@ -9,4 +9,8 @@ With RxJava and chaining operators it is not straightforward how to reuse the pr
 
 For instance you can use it like this:
 
-\[sourcecode language="java"\] Observable.just("MyObservable") .flatMap({ Observable.just(1)}) { string, number -> Pair(string, number) } .subscribe { (first, second) -> println("Original Value: $first Number: $second") } \[/sourcecode\]
+```java
+Observable.just("MyObservable") 
+    .flatMap({ Observable.just(1)}) { string, number -> Pair(string, number) } 
+    .subscribe { (first, second) -> println("Original Value: $first Number: $second") }
+```

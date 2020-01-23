@@ -21,11 +21,10 @@ The first screen you will see one key element you should not forget, in order to
 
 You will have to add this key together with the package name to the Google API page. Do not forget that this key is for debugging purposes which means you will have to generate a new SHA1 key for the production environment. If you look under the dependencies you will see a new line
 
-```
+```java
 {  
  compile 'com.google.android.gms:play-services:6.5.87′  
  }
-
 
 ```
 
@@ -37,13 +36,12 @@ If you see your Java source file you will see a map fragment together with the o
 
 So how do we get the current location? Simple first we have to make sure that our app permission include _“ACCESS\_COARSE\_LOCATION” and “ACCESS\_FINE\_LOCATION”_. After that we should create a new object from the GoogleApiClient and finally use as described in the official documentation.
 
-```
- mGoogleApiClient = new GoogleApiClient.Builder(this)  
+```java
+ googleApiClient = new GoogleApiClient.Builder(this)  
  .addConnectionCallbacks(this)  
  .addOnConnectionFailedListener(this)  
  .addApi(LocationServices.API)  
  .build();
-
 ```
 
 So what exactly are these lines doing for us? The first is to create a new GoogleApiClient object using the Builder pattern that you may have seen in Android with things like AlertDialogs. The methods are chained together to make the code easier to understand. The next two lines tell the new client that “this” current class (MapsActivity) will handle connection stuff. We’ll add that next.
@@ -54,38 +52,35 @@ But first we need to implement some methods for those interfaces related to thos
 
 We must implement
 
-```
+```java
 GoogleApiClient.ConnectionCallbacks,GoogleApiClient  
 .OnConnectionFaileListener
-
 ```
 
 so that the final class will look like this:
 
-```
+```java
  public class MapsActivity extends FragmentActivity implements  
  GoogleApiClient.ConnectionCallbacks,  
  GoogleApiClient.OnConnectionFailedListener
-
 ```
 
 After that we should import the new classes to our errors will go away and implement the missing methods.
 
 After having the basic structure in place we should organize the connecting and disconnecting on our methods onResume(). The activity may be paused at any time and when we recall the activity lifecycle process you will see that after onCreate() the onResume() is called.
 
-```
+```java
 @Override  
  protected void onResume() {  
     super.onResume();  
     setUpMapIfNeeded();  
     mGoogleApiClient.connect();  
  }
-
 ```
 
 Don’t forget to add the appropriate method on our onPause() so we disconnect from the service and don’t waste cpu cycles and battery power.
 
-```
+```java
 @Override  
  protected void onPause() {  
     super.onPause();  
@@ -93,7 +88,6 @@ Don’t forget to add the appropriate method on our onPause() so we disconnect f
         mGoogleApiClient.disconnect();  
     }  
  }
-
 ```
 
 #### Getting the last location
@@ -102,36 +96,34 @@ Don’t forget to add the appropriate method on our onPause() so we disconnect f
 
 on the onConnected() method add the following
 
-```
+```java
 Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
 ```
 
 You should always remember to incorporate a null check in case we don’t have a location and request a new one.
 
-```
+```java
 if (location == null) {  
  // Blank for a moment…  
  }  
  else {  
  handleNewLocation(location);  
  };
-
 ```
 
 #### Handling Errors
 
 We won’ t do anything special about the error cases, but it’ s important to know that Google Play Services includes some built-in mechanisms for handling certain errors. The first thing we need is a constant static member variable at the top of our MapsActivity class. This defines a request code to send to Google Play services, which is returned in Activity.onActivityResult():
 
-```
+```java
 private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
 ```
 
 Then paste the code below into the onConnectionFailed() method. There are more detailed comments in the source on GitHub, and check the documentation for a little more information.
 
-```
- @Override  
+```java
+@Override  
  public void onConnectionFailed(ConnectionResult connectionResult) {  
    if (connectionResult.hasResolution()) {  
      try {  
@@ -146,14 +138,13 @@ Then paste the code below into the onConnectionFailed() method. There are more d
     connectionResult.getErrorCode());  
     }  
  }
-
 ```
 
 #### Requesting Location Updates
 
 Next thing on the list is to get request those location updates so we can use them is our code. This is primary used run-tracking app or navigation application. For this we need to implement a LocationListener interface and be sure to use the _com.google.android.gms.location_. After that fix the error by implementing the interface methods. You will see the onLocationChanged() method. This method gets called every time a new location is detected by the Google Play service and is silently working in the background updating the location. To use it in our Activity we will use the a method we have already implemented handlNewLocation()
 
-```
+```java
 @Override  
  public void onLocationChanged(Location location) {  
  handleNewLocation(location);  
@@ -165,20 +156,19 @@ Next thing on the list is to get request those location updates so we can use th
 
 To be able to start a request we have a method for it _onLocationChanged()_ but we don’t have anything set up to call it. So we will create a new object _LocationRequest_ and initialize it in on the _onCreate()_ .
 
-```
+```java
 // Create the LocationRequest object  
- mLocationRequest = LocationRequest.create()  
+ locationRequest = LocationRequest.create()  
  .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)  
  .setInterval(10 * 1000) // 10 seconds, in milliseconds  
  .setFastestInterval(1 * 1000); // 1 second, in milliseconds
-
 ```
 
 So what does it do? First thing we set the priority to [high accuracy](http://renegens.github.io/articles/%28https://developer.android.com/reference/com/google/android/gms/location/LocationRequest.html%29 "Location Request") which means we want location updates as accurate as possible. This mode also drains the most battery. If we don’t need so high accuracy we can lower the value. Next up is the Interval which means when the location update is triggered. Higher number means more frequent updates. Lastly the last line is an option as to when receive location updates when other apps are requesting it. Since this is shared across android you can “steal the location”.
 
 Now we just need to use this request. We use it with our GoogleApiClient using a special method from the fused location provider. Let’s add this line in our _onConnected()_ method where we check to see if the last location is null:
 
-```
+```java
  @Override  
  public void onConnected(Bundle bundle) {  
      Location location =  LocationServices.FusedLocationApi  
@@ -189,14 +179,13 @@ Now we just need to use this request. We use it with our GoogleApiClient using a
      } else {  
              handleNewLocation(location);}  
  }
-
 ```
 
 As a reminder this code is requesting only if the last location is not known.
 
 When finished we should remove and updates in the _onPause()_ method
 
-```
+```java
  @Override  
  protected void onPause() {  
      super.onPause();  
@@ -206,7 +195,6 @@ When finished we should remove and updates in the _onPause()_ method
          mGoogleApiClient.disconnect();  
          }  
  }
-
 ```
 
 #### Showing a location on the map
@@ -218,24 +206,21 @@ The following lines of code will be added in our handleNewLocation() helper meth
 ```
 double currentLatitude = location.getLatitude();  
  double currentLongitude = location.getLongitude();
-
 ```
 
 We then can create a LatLng object that stores the information.
 
-```
+```java
 LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-
 ```
 
 and change the method to
 
-```
+```java
 MarkerOptions options = new MarkerOptions()  
  .position(latLng)  
  .title("I am here!");  
  mMap.addMarker(options);
-
 ```
 
 That’s all there is. Seems quite a lot of work but you can save this and whenever you need to get a user location you can use this method and implement this in your apps.

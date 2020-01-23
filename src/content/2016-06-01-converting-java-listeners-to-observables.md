@@ -18,19 +18,30 @@ In order to create this Listener in Java somebody has to follow the below four s
 
 In code this would look something like this:
 
-\[sourcecode language="java"\]public interface ObjectListener { public void onRefresh(); }
+```java
+public interface ObjectListener { public void onRefresh(); }
 
 public class ListenToMe {
 
 private ObjectListener listener;
 
-public void HappensWhenEventIsTriggered(){ listener.onRefresh(); }
+public void HappensWhenEventIsTriggered() { listener.onRefresh(); }
 
-public void setListener (ObjectListener listener){ this.listener = listener; } }
+public void setListener (ObjectListener listener) { this.listener = listener; } }
 
 public class MainActivity extends AppCompatActivity {
 
-@Override public void onCreate(Bundle savedInstanceState){ ListenToMe listenToMe = new ListenToMe(); listenToMe.setListener(new ObjectListener() { @Override public void onRefresh(){ //code to handle refresh } }); } }\[/sourcecode\]
+    @Override 
+    public void onCreate(Bundle savedInstanceState) { 
+        ListenToMe listenToMe = new ListenToMe(); listenToMe.setListener(new ObjectListener() {
+            @Override 
+            public void onRefresh() { 
+                code to handle refresh 
+            } 
+        }); 
+    } 
+}
+```
 
 All great, but how can we spice things up with RxJava?
 
@@ -44,7 +55,8 @@ Let’s imagine we have TodoList class, it holds a list of to Do’s and has a L
 
 Let’s see how the class looks before migration.
 
-\[sourcecode language="java"\]public class TodoList {
+```java
+public class TodoList {
 
 private TodoListener listener; private List&lt;Todo&gt; TodoList;
 
@@ -54,11 +66,13 @@ public void setListener(TodoListener listener) { this.listener = listener; }
 
 public void add(Todo todo){ TodoList.add(todo); }
 
-//some more methods }\[/sourcecode\]
+//some more methods }
+```
 
 We are adding the Typed ReplaySubject and create it with a static creation method as [Effective Java](http://www.amazon.com/Effective-Java-2nd-Joshua-Bloch/dp/0321356683) by Joshua Bloch suggests. With this Subject, Subscribers can subscribe to the TodoList and it will emit ToDo items. Don’t forget, regardless of the time they will subscribe, they will get every item that has already been emitted. Check the comments of the snippet to see what we are adding to make this an Observable.
 
-\[sourcecode language="java"\]public class TodoList {
+```java
+public class TodoList {
 
 //1. add this ReplaySubject &lt;TodoList&gt; notifier = ReplaySubject.create();
 
@@ -70,24 +84,29 @@ public void add(Todo todo){ TodoList.add(todo); //3. add onNext(); notifier.onNe
 
 //4. Expose the class as a Observable public Observable &lt;TodoList&gt; asObservable(){ return notifier; }
 
-//some more methods }\[/sourcecode\]
+//some more methods }
+```
 
 So far so good, we successfully converted the TodoList to an Observable with no Listeners so we can subscribe to it. Let’s assume that we had implemented the Listener in an adapter. Whenever something would be added to the list, the adapter could update itself. Now we can replace the Listener with an Action1 interface from RxJava, which is simply an interface that has only onNext() and not onSuccess() and onError().
 
-\[sourcecode language="java"\]public class MyAdapter implements Action1<TodoList> {
+```java
+public class MyAdapter implements Action1<TodoList> {
 
 @Override public void onCreate(Bundle savedInstanceState){ //... TodoList data = new TodoList(); }
 
-@Override public void call (TodoList todoList){ data = TodoList; notifyDataSetChanged(); } } \[/sourcecode\]
+@Override public void call (TodoList todoList){ data = TodoList; notifyDataSetChanged(); } } 
+```
 
 Finally we need to tie everything together and subscribe to the Observable.
 
-\[sourcecode language="java"\]public class MyAdapter implements Action1<TodoList> {
+```java
+public class MyAdapter implements Action1<TodoList> {
 
 @Override public void onCreate(Bundle savedInstanceState){ //... TodoList data = new TodoList();
 
 //Don't forget to subscribe data.asObservable().subscribe(whatIsGonnaSubscribe). }
 
-@Override public void call (TodoList todoList){ data = TodoList; notifyDataSetChanged(); } } \[/sourcecode\]
+@Override public void call (TodoList todoList){ data = TodoList; notifyDataSetChanged(); } } 
+```
 
 We have seen that with a few changes we can replace the traditional Listener with RxJava. Furthermore we can add operators to the Observable and chain them together.

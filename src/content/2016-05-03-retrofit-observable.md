@@ -30,11 +30,21 @@ We need to set up Retrofit so we can use RxJava with it. Pay attention that we a
 ```java
 @Module public class ApiModule {
 
-@Provides public OkHttpClient provideClient() { HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(); interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+@Provides public OkHttpClient provideClient() { 
+    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(); 
+    interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    return new OkHttpClient.Builder()
+        .addInterceptor(interceptor)
+        .addInterceptor(new Interceptor() { 
+            @Override public Response intercept(Chain chain) throws IOException { 
+                Request request = chain.request(); 
+                HttpUrl url = request.url().newBuilder().addQueryParameter( "api\_key", Constants.API\_KEY ).build(); 
+                request = request.newBuilder().url(url).build(); 
+                return chain.proceed(request); } }).build(); 
+            }
 
-return new OkHttpClient.Builder().addInterceptor(interceptor).addInterceptor(new Interceptor() { @Override public Response intercept(Chain chain) throws IOException { Request request = chain.request(); HttpUrl url = request.url().newBuilder().addQueryParameter( "api\_key", Constants.API\_KEY ).build(); request = request.newBuilder().url(url).build(); return chain.proceed(request); } }).build(); }
-
-@Provides public Retrofit provideRetrofit (String baseURL, OkHttpClient client){ return new Retrofit.Builder() .baseUrl(baseURL) .client(client) .addCallAdapterFactory(RxJavaCallAdapterFactory.create()) .addConverterFactory(GsonConverterFactory.create()) .build(); }
+@Provides public Retrofit provideRetrofit (String baseURL, OkHttpClient client){ 
+    return new Retrofit.Builder().baseUrl(baseURL).client(client).addCallAdapterFactory(RxJavaCallAdapterFactory.create()) .addConverterFactory(GsonConverterFactory.create()) .build(); }
 
 @Provides public MovieApiService provideApiService(){ return provideRetrofit(Constants.BASE\_URL,provideClient()).create(MovieApiService.class); } } 
 ```
@@ -43,8 +53,9 @@ The required interface for Retrofit. This one gets Movies as a Observable.
 
 ```java
 public interface MovieApiService {
-
-@GET("top\_rated") Observable <TopRated> getTopRatedMovies(@Query("page") Integer page); } 
+@GET("top\_rated") 
+Observable <TopRated> getTopRatedMovies(@Query("page") Integer page); 
+} 
 ```
 
 Notice that the results are paginated. Normally we would fire up a couple of calls changing the parameter of the call each time and having to deal with each call separately. If you have 10 calls you can easily end up with repetitive code and a nice callback hell where error handling is nearly impossible. When returning from the call we have each and every time a response object which has an array of results nested. We could write a custom JSON adapter that could deal with that but that means more code! So where I am going with this?
@@ -58,7 +69,9 @@ First let’s handle combining the result of the API calls in the same order we 
 ```java
 Observable<TopRated> merged = topRatedMovies.concatWith(topRatedMovies2).concatWith(topRatedMovies3);
 
-Observable <Result> resultObservable = merged.flatMap(new Func1<TopRated, Observable<Result>>() { @Override public Observable<Result> call(TopRated topRated) { return Observable.just(topRated.results); } }); 
+Observable <Result> resultObservable = merged.flatMap(new Func1<TopRated, Observable<Result>>() { @Override public Observable<Result> call(TopRated topRated) { 
+    return Observable.just(topRated.results); } 
+    }); 
 ```
 
 The operator we are using is [flatMap](http://reactivex.io/documentation/operators/flatmap.html) which the documentation states does:
@@ -70,9 +83,7 @@ So in plain English you put in the mix an Observable and a function. The functio
 Lets define what will happen each time a new Observable is emitted.
 
 ```java
-Observer<Result> observerResults = new Observer<Result>() { @Override public void onCompleted() {
-
-}
+Observer<Result> observerResults = new Observer<Result>() { @Override public void onCompleted() {}
 
 @Override 
 public void onError(Throwable e) { }

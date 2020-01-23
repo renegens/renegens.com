@@ -18,3 +18,5 @@ item?.takeIf { it.itemId == android.R.id.home }?.run {             
     onBackPressed()         
 }
 ```
+
+[Check some other Android posts on the blog, I hope they will help.](http://www.renegens.com)
