@@ -11,18 +11,49 @@
   {
     "title": "Hardware",
     "items": [
-      "Apple Macbook 2018 13\" 16Gb Ram & 512GB Storage",
+      "Apple Macbook 2018 13\" Quad Core, 16Gb Ram & 512GB Storage",
       "Dell Ultrasharp U2715H",
+      "Apple Magic Keyboard with Numeric Keypad",
+      "Twelve South Curve Stand",
+      "SATECHI Aluminium Multiport Adapter",
       "Airpods 2019 (v2)",
       "Senheiser HD25",
-      "iPhone XS 64GB Black"
+      "iPhone XS 64GB Black",
+      "Apple Watch Series 5",
+      "Xiaomi Mi A2",
+      "Chair Ergohuman Total Black",
+      "IKEA Bekant sit/stand desk",
+      "Google Home Mini",
+      "Kindle Paperwhite"
     ]
   },
   {
-    "title": "Software",
+    "title": "Software Destkop",
     "items": [
       "Android Studio",
-      "vsCode"
+      "Visual Studio Code",
+      "SourceTree",
+      "Github Desktop",
+      "Chrome",
+      "Slack",
+      "Kap for recording parts of the screen",
+      "Apple Notes and Reminders",
+      "Postman playing with REST",
+      "1Password for password managment",
+      "Spotify for musc",
+      "JetBrains Mono font"
+    ]
+  },
+  {
+    "title": "Software Phone",
+    "items": [
+      "Nike Running Club",
+      "Minimal Cal",
+      "Simple Weather",
+      "Spotify for podcases",
+      "Audible",
+      "Apple Notes and Reminders",
+      "Bound for audio file playback"
     ]
   }
 ]
