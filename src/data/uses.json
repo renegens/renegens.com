@@ -4,7 +4,7 @@
     "items": [
       "Android",
       "Kotlin",
-      "Gatsby.js",
+      "Gatsby",
       "React"
     ]
   },
@@ -17,7 +17,7 @@
       "Twelve South Curve Stand",
       "SATECHI Aluminium Multiport Adapter",
       "Airpods 2019 (v2)",
-      "Senheiser HD25",
+      "Sennheiser HD-25",
       "iPhone XS 64GB Black",
       "Apple Watch Series 5",
       "Xiaomi Mi A2",
@@ -28,7 +28,7 @@
     ]
   },
   {
-    "title": "Software Destkop",
+    "title": "Software Desktop",
     "items": [
       "Android Studio",
       "Visual Studio Code",
@@ -40,7 +40,7 @@
       "Apple Notes and Reminders",
       "Postman playing with REST",
       "1Password for password managment",
-      "Spotify for musc",
+      "Spotify for music",
       "JetBrains Mono font"
     ]
   },
@@ -50,7 +50,7 @@
       "Nike Running Club",
       "Minimal Cal",
       "Simple Weather",
-      "Spotify for podcases",
+      "Spotify for podcasts",
       "Audible",
       "Apple Notes and Reminders",
       "Bound for audio file playback"
