@@ -14,9 +14,11 @@
       "Apple Macbook 2018 13\" Quad Core, 16Gb Ram & 512GB Storage",
       "Dell Ultrasharp U2715H",
       "Apple Magic Keyboard with Numeric Keypad",
+      "Logitech MX Ergo Wireless Trackball",
+      "Razer DeathAdder",
       "Twelve South Curve Stand",
       "SATECHI Aluminium Multiport Adapter",
-      "Airpods 2019 (v2)",
+      "Airpods Pro",
       "Sennheiser HD-25",
       "iPhone XS 64GB Black",
       "Apple Watch Series 5",
@@ -31,29 +33,31 @@
     "title": "Software Desktop",
     "items": [
       "Android Studio",
-      "Visual Studio Code",
+      "Web Storm",
       "SourceTree",
       "Github Desktop",
       "Chrome",
-      "Slack",
+      "Safari",
+      "Steam",
       "Kap for recording parts of the screen",
       "Apple Notes and Reminders",
       "Postman playing with REST",
-      "1Password for password managment",
-      "Spotify for music",
+      "1Password for password management",
+      "Spotify",
       "JetBrains Mono font"
     ]
   },
   {
     "title": "Software Phone",
     "items": [
-      "Nike Running Club",
+      "Apple Watch Workout",
+      "Strava",
       "Minimal Cal",
-      "Simple Weather",
-      "Spotify for podcasts",
+      "Twitter",
+      "Spotify",
+      "Pocketcasts",
       "Audible",
-      "Apple Notes and Reminders",
-      "Bound for audio file playback"
+      "Apple Notes and Reminders"
     ]
   }
 ]
