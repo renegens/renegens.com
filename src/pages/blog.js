@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import { css } from "@emotion/core"
 import styled from "@emotion/styled"
 
@@ -36,7 +36,7 @@ const ReadingTime = styled.h5`
 const IndexPage = ({ data }) => {
   return (
     <Layout>
-      <SEO title="Blog" keywords={[`android`]} />
+      <SEO title="Blog" keywords={[`android`]}/>
       <Content>
         <h1>Blog</h1>
         {data.allMarkdownRemark.edges
