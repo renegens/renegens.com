@@ -1,10 +1,10 @@
 import React from "react"
 import { graphql, Link } from "gatsby"
-import { css } from "@emotion/core"
+import { css } from "@emotion/react"
 import styled from "@emotion/styled"
 
 import Layout from "../components/layout"
-import SEO from "../components/seo"
+import { useSEO } from "../components/seo"
 
 const Content = styled.div`
   margin: 0 auto;
@@ -34,14 +34,25 @@ const ReadingTime = styled.h5`
 `
 
 const IndexPage = ({ data }) => {
+  if (!data || !data.allMarkdownRemark) {
+    return (
+      <Layout>
+        <Content>
+          <h1>Blog</h1>
+          <p>No posts found.</p>
+        </Content>
+      </Layout>
+    )
+  }
+
   return (
     <Layout>
-      <SEO title="Blog" keywords={[`android`]}/>
       <Content>
         <h1>Blog</h1>
         {data.allMarkdownRemark.edges
           .filter(({ node }) => {
-            const rawDate = node.frontmatter.rawDate
+            const rawDate = node.frontmatter?.rawDate
+            if (!rawDate) return false
             const date = new Date(rawDate)
             return date < new Date()
           })
@@ -57,7 +68,9 @@ const IndexPage = ({ data }) => {
                 <MarkerHeader>{node.frontmatter.title} </MarkerHeader>
                 <div>
                   <ArticleDate>{node.frontmatter.date}</ArticleDate>
-                  <ReadingTime> - {node.fields.readingTime.text}</ReadingTime>
+                  {node.fields?.readingTime && (
+                    <ReadingTime> - {node.fields.readingTime.text}</ReadingTime>
+                  )}
                 </div>
                 <p>{node.excerpt}</p>
               </Link>
@@ -70,6 +83,25 @@ const IndexPage = ({ data }) => {
 
 export default IndexPage
 
+export function Head() {
+  const seo = useSEO({ title: "Blog", keywords: [`android`] })
+  return (
+    <>
+      <html lang={seo.htmlAttributes.lang} />
+      <title>{seo.title}</title>
+      {seo.meta.map((meta, i) => {
+        if (meta.name) {
+          return <meta key={i} name={meta.name} content={meta.content} />
+        }
+        if (meta.property) {
+          return <meta key={i} property={meta.property} content={meta.content} />
+        }
+        return null
+      })}
+    </>
+  )
+}
+
 export const query = graphql`
   query {
     site {
@@ -78,7 +110,7 @@ export const query = graphql`
       }
     }
     allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { frontmatter: { date: DESC } }
       filter: { frontmatter: { draft: { eq: false } } }
     ) {
       totalCount
@@ -93,9 +125,6 @@ export const query = graphql`
           }
           fields {
             slug
-            readingTime {
-              text
-            }
           }
           excerpt
         }
