@@ -2,7 +2,7 @@ import React from "react"
 import { graphql } from "gatsby"
 import styled from "@emotion/styled"
 import Layout from "../components/layout"
-import SEO from "../components/seo"
+import { useSEO } from "../components/seo"
 
 const Content = styled.div`
   margin: 0 auto;
@@ -27,7 +27,7 @@ const HeaderDate = styled.h3`
 `
 
 // STYLE THE TAGS INSIDE THE MARKDOWN HERE
-const MarkdownContent = styled.div`
+const MarkedContent = styled.div`
   a {
     text-decoration: none;
     position: relative;
@@ -46,22 +46,58 @@ const MarkdownContent = styled.div`
   }
 `
 
-export default ({ data }) => {
+const BlogPost = ({ data }) => {
+  if (!data || !data.markdownRemark) {
+    return (
+      <Layout>
+        <Content>
+          <p>Post not found.</p>
+        </Content>
+      </Layout>
+    )
+  }
+
   const post = data.markdownRemark
   return (
     <Layout>
-      <SEO
-        title={post.frontmatter.title}
-        description={post.frontmatter.description || post.excerpt}
-      />
       <Content>
-        <MarkedHeader>{post.frontmatter.title}</MarkedHeader>
+        <MarkedHeader>{post.frontmatter?.title || "Untitled"}</MarkedHeader>
         <HeaderDate>
-          {post.frontmatter.date} - {post.fields.readingTime.text}
+          {post.frontmatter?.date || ""}
+          {post.fields?.readingTime && ` - ${post.fields.readingTime.text}`}
         </HeaderDate>
-        <MarkdownContent dangerouslySetInnerHTML={{ __html: post.html }} />
+        {post.html && (
+          <MarkedContent dangerouslySetInnerHTML={{ __html: post.html }} />
+        )}
       </Content>
     </Layout>
+  )
+}
+
+export default BlogPost
+
+export function Head({ data }) {
+  // Call hook unconditionally at the top level
+  const post = data?.markdownRemark
+  const seo = useSEO({
+    title: post?.frontmatter?.title || "Post not found",
+    description: post?.frontmatter?.description || post?.excerpt,
+  })
+  
+  return (
+    <>
+      <html lang={seo.htmlAttributes.lang} />
+      <title>{seo.title}</title>
+      {seo.meta.map((meta, i) => {
+        if (meta.name) {
+          return <meta key={i} name={meta.name} content={meta.content} />
+        }
+        if (meta.property) {
+          return <meta key={i} property={meta.property} content={meta.content} />
+        }
+        return null
+      })}
+    </>
   )
 }
 
@@ -76,9 +112,7 @@ export const pageQuery = graphql`
         title
       }
       fields {
-        readingTime {
-          text
-        }
+        slug
       }
     }
   }
