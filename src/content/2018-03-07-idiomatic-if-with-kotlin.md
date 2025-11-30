@@ -19,4 +19,4 @@ item?.takeIf { it.itemId == android.R.id.home }?.run {             
 }
 ```
 
-[Check some other Android posts on the blog, I hope they will help.](http://www.renegens.com)
+[Thanks for reading! Check out more posts on the blog if you'd like.](http://www.renegens.com)
