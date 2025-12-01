@@ -7,6 +7,8 @@ body {
   font-family: "Jetbrains Mono Regular", "sans-serif";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #000;
+  color: #fff;
 }
 article,
 aside,
@@ -41,12 +43,13 @@ template {
 }
 a {
   font-style: normal;
-  color: hsla(0, 0%, 0%, 0.8);
+  color: #4ade80;
   -webkit-text-decoration-skip: objects;
 }
 a:active,
 a:hover {
   outline-width: 0;
+  color: #22c55e;
 }
 abbr[title] {
   border-bottom: none;
@@ -200,7 +203,7 @@ html {
   box-sizing: inherit;
 }
 body {
-  color: hsla(0, 0%, 0%, 0.8);
+  color: #fff;
   font-weight: normal;
   word-wrap: break-word;
   font-kerning: normal;
