@@ -39,4 +39,4 @@ In conclusion I was listening for a lastLocation which was retrieved by the WiFi
 
 **Here you have it, next time you lastLocation is null, check what permission you are asking for.**
 
-[Check some other Android posts on the blog, I hope they will help.](http://www.renegens.com)
+[Thanks for reading! Check out more posts on the blog if you'd like.](http://www.renegens.com)

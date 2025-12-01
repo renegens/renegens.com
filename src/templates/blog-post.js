@@ -12,36 +12,26 @@ const Content = styled.div`
 
 const MarkedHeader = styled.h1`
   display: inline;
-  border-radius: 1em 0 1em 0;
-  background-image: linear-gradient(
-    -100deg,
-    rgba(255, 250, 150, 0.15),
-    rgba(255, 250, 150, 0.8) 100%,
-    rgba(255, 250, 150, 0.25)
-  );
+  color: #fff;
 `
 
 const HeaderDate = styled.h3`
   margin-top: 10px;
-  color: #606060;
+  color: #aaa;
 `
 
 // STYLE THE TAGS INSIDE THE MARKDOWN HERE
 const MarkedContent = styled.div`
+  color: #fff;
+  
   a {
     text-decoration: none;
-    position: relative;
-
-    background-image: linear-gradient(
-      rgba(255, 250, 150, 0.8),
-      rgba(255, 250, 150, 0.8)
-    );
-    background-repeat: no-repeat;
-    background-size: 100% 0.2em;
-    background-position: 0 88%;
-    transition: background-size 0.25s ease-in;
+    color: #4ade80;
+    transition: color 0.2s;
+    
     &:hover {
-      background-size: 100% 88%;
+      color: #22c55e;
+      text-decoration: underline;
     }
   }
 `

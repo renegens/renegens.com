@@ -1,19 +1,20 @@
 import React from "react"
+import { graphql } from "gatsby"
 import { useSEO } from "../components/seo"
 
-import LandingBio from "../components/landing-bio"
+import LandingPage from "../components/landing-page"
 import Layout from "../components/layout"
 
-const IndexPage = () => (
-  <Layout>
-    <LandingBio />
+const IndexPage = ({ data }) => (
+  <Layout fullWidth>
+    <LandingPage data={data} />
   </Layout>
 )
 
 export default IndexPage
 
 export function Head() {
-  const seo = useSEO({ title: "Home", keywords: [`developer`, `android`, `blog`] })
+  const seo = useSEO({ title: "Home", keywords: [`developer`, `android`, `blog`, `kotlin`, `contractor`] })
   return (
     <>
       <html lang={seo.htmlAttributes.lang} />
@@ -30,3 +31,24 @@ export function Head() {
     </>
   )
 }
+
+export const query = graphql`
+  query {
+    allMarkdownRemark(
+      sort: { frontmatter: { date: DESC } }
+      filter: { frontmatter: { draft: { eq: false } } }
+      limit: 5
+    ) {
+      edges {
+        node {
+          id
+          frontmatter {
+            title
+            path
+          }
+          excerpt(pruneLength: 160)
+        }
+      }
+    }
+  }
+`

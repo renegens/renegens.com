@@ -15,8 +15,8 @@ import "./layout.css"
 
 const Content = styled.div`
   margin: 0 auto;
-  max-width: 860px;
-  padding: 0 1.0875rem 1rem;
+  max-width: ${props => props.fullWidth ? '100%' : '860px'};
+  padding: ${props => props.fullWidth ? '0' : '0 1.0875rem 1rem'};
   padding-top: 0;
 `
 
@@ -29,7 +29,7 @@ const Footer = styled.footer`
   justify-content: center;
 `
 
-const Layout = ({ children }) => (
+const Layout = ({ children, fullWidth = false }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -43,13 +43,15 @@ const Layout = ({ children }) => (
     render={data => (
       <>
         <Header siteTitle={data.site.siteMetadata.title} />
-        <Content>
+        <Content fullWidth={fullWidth}>
           <main>{children}</main>
-          <Footer>
-            © {new Date().getFullYear()}, Built with
-            {` `}
-            <GatsbyLink href="https://www.gatsbyjs.org">Gatsby</GatsbyLink>
-          </Footer>
+          {!fullWidth && (
+            <Footer>
+              © {new Date().getFullYear()}, Built with
+              {` `}
+              <GatsbyLink href="https://www.gatsbyjs.org">Gatsby</GatsbyLink>
+            </Footer>
+          )}
         </Content>
       </>
     )}
@@ -58,6 +60,7 @@ const Layout = ({ children }) => (
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  fullWidth: PropTypes.bool,
 }
 
 export default Layout

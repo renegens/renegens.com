@@ -7,10 +7,11 @@ const Content = styled.div`
   max-width: 860px;
   padding: 1rem 1.0875rem;
   font-size: 1.2rem;
+  color: #fff;
 `
 
 const NavLink = styled(Link)`
-  color: black;
+  color: #fff;
   margin-left: 15px;
   text-decoration: none;
   display: inline-block;
@@ -24,7 +25,7 @@ const NavLink = styled(Link)`
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: #4ade80;
     transform-origin: bottom right;
     transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
   }
@@ -32,11 +33,15 @@ const NavLink = styled(Link)`
   :hover::after {
     transform: scaleX(1);
     transform-origin: bottom left;
+  }
+  
+  &:hover {
+    color: #4ade80;
   }
 `
 
 const GitHubLink = styled.a`
-  color: black;
+  color: #fff;
   margin-left: 15px;
   text-decoration: none;
   display: inline-block;
@@ -50,7 +55,7 @@ const GitHubLink = styled.a`
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: #4ade80;
     transform-origin: bottom right;
     transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
   }
@@ -58,6 +63,10 @@ const GitHubLink = styled.a`
   :hover::after {
     transform: scaleX(1);
     transform-origin: bottom left;
+  }
+  
+  &:hover {
+    color: #4ade80;
   }
 `
 
@@ -66,10 +75,11 @@ const HomeLink = styled(NavLink)`
 `
 
 const SiteHeader = styled.header`
-  background: transparent;
+  background: #000;
   display: flex;
   align-content: center;
   justify-content: center;
+  border-bottom: 1px solid #333;
 `
 
 const Header = ({ siteTitle }) => (
@@ -81,8 +91,6 @@ const Header = ({ siteTitle }) => (
           Author
         </GitHubLink>
         <NavLink to="/blog">Blog</NavLink>
-        <NavLink to="/uses">Uses</NavLink>
-        <GitHubLink href="https://github.com/renegens/notes" target="_blank">Notes</GitHubLink>
         <GitHubLink href="https://github.com/renegens" target="_blank">
           GitHub
         </GitHubLink>

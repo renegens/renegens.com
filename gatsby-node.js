@@ -60,7 +60,9 @@ exports.createPages = ({ graphql, actions }) => {
           path: node.frontmatter.path,
           component: blogPostTemplate,
           slug: node.fields.slug,
-          context: {},
+          context: {
+            path: node.frontmatter.path,
+          },
         })
       })
   })
