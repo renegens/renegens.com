@@ -275,8 +275,8 @@ const LandingPage = ({ data }) => {
     <>
       {/* Hero Section */}
       <HeroSection>
-        <HeroTitle>Senior Full-Stack Kotlin Contractor</HeroTitle>
-        <HeroSubtitle>Android • KMP • SwiftUI iOS • Spring Boot</HeroSubtitle>
+        <HeroTitle>Senior Kotlin Contractor</HeroTitle>
+        <HeroSubtitle>Android • KMP • SwiftUI iOS</HeroSubtitle>
         {/* <HeroRate>$190–$230/hour • Remote only</HeroRate>
         <HeroAvailability>Available from February 2026</HeroAvailability> */}
         
@@ -303,7 +303,7 @@ const LandingPage = ({ data }) => {
         <ProblemsGrid>
           <ProblemCard>
             <ProblemText>
-              True full-stack Kotlin (mobile + Spring Boot 3 backend that never fights the client)
+              End-to-end Kotlin mobile solutions that integrate seamlessly with any backend
             </ProblemText>
           </ProblemCard>
           <ProblemCard>
@@ -343,7 +343,6 @@ const LandingPage = ({ data }) => {
           <TechBadge as="span">Jetpack Compose</TechBadge>
           <TechBadge as="span">KMP</TechBadge>
           <TechBadge as="span">SwiftUI</TechBadge>
-          <TechBadge as="span">Spring Boot 3</TechBadge>
           <TechBadge as="span">Coroutines</TechBadge>
           <TechBadge as="span">Docker</TechBadge>
           <TechBadge as="span">Baseline Profiles</TechBadge>
@@ -377,7 +376,7 @@ const LandingPage = ({ data }) => {
                 <ArticleTitle>GrapheneOS banking sandbox template</ArticleTitle>
               </ArticleLink>
               <ArticleLink to="/blog">
-                <ArticleTitle>Full-stack Kotlin architecture + public repo</ArticleTitle>
+                <ArticleTitle>Kotlin architecture + public repo</ArticleTitle>
               </ArticleLink>
             </>
           )}
